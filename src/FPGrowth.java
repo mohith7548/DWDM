@@ -4,11 +4,14 @@ import java.util.*;
 
 public class FPGrowth {
     private static Scanner reader = new Scanner(System.in);
+
     private static HashMap<String, Integer> Fmap = new HashMap<>();
-    private static ArrayList<String> F = new ArrayList<>();
+    private static ArrayList<String> F = new ArrayList<>(); // Links to hold the items as a linked list
+    private static FpNode[] links;
+
+    private static ArrayList<ArrayList<TreeMap<String, Integer>>> patternBase;
     private static ArrayList<TreeSet<String>> transactions = new ArrayList<>();
     private static int minCount;
-    private static TreeMap<String, Integer> Rules;
     private static FpNode HEAD;
 
     private static Comparator<String> valComparator = (t1, t2) -> {
@@ -36,6 +39,8 @@ public class FPGrowth {
             println("1. Determine Frequent Item Data set");
             println("2. List all Transactions");
             println("3. Frequent 1-item sets");
+            println("4. List all links");
+            println("5. Show Conditional Pattern base");
             println("Press any key to exit");
             int choice = reader.nextInt();
             switch (choice) {
@@ -57,11 +62,30 @@ public class FPGrowth {
                     printMap(Fmap);
                     break;
 
+                case 4:
+                    ListAllLinks();
+                    break;
+
+                case 5:
+                    // TODO:
+                    break;
+
                 default:
                     println("Good bye, Folks!\n");
                     isRunning = false;
                     break;
             }
+        }
+    }
+
+    private static void ListAllLinks() {
+        println("Links size is: " + links.length);
+        for (FpNode fpNode : links) {
+            while (fpNode != null) {
+                print(fpNode.getName() + "(" + fpNode.getCount() + ")" + "-->");
+                fpNode = fpNode.getSiblingNode();
+            }
+            println("");
         }
     }
 
@@ -72,7 +96,12 @@ public class FPGrowth {
 
         // Sort F in (descending) order
         sortF();
+        print("F = ");
         printArrayList(F);
+
+        // Fill links with null node initially
+        links = new FpNode[F.size()];
+        patternBase = new ArrayList<>(Collections.nCopies(links.length, null)); // do null entries for the same size
 
         println("");
         ConstructFpTree();
@@ -81,8 +110,34 @@ public class FPGrowth {
         // test tree by printing a node's children and their count
         testTree();
 
-        // Compute the Association rules from the Tree
+        /// Compute the Association rules from the Tree
 
+        // Get pattern base
+        generateConditionalPatternBase();
+
+    }
+
+    private static void generateConditionalPatternBase() {
+        ListAllLinks();
+        for (int i = links.length - 1; i >= 0; --i) {
+            FpNode fpNode = links[i];
+            ArrayList<String> items = new ArrayList<>();
+            int count = fpNode.getCount();
+            while (!fpNode.getName().equals("NULL")) {
+                items.add(fpNode.getName());
+                fpNode = fpNode.getParentNode();
+            }
+            println("Items:");
+            printArrayList(items);
+            TreeMap<String, Integer> treeMap = new TreeMap<>();
+            StringBuilder sb = new StringBuilder();
+            for (String item : items) sb.append(item);
+            sb.reverse();
+            println(sb.toString() + "--" + "count: " + count);
+            treeMap.put(sb.toString(), count);
+//            patternBase = new ArrayList<>();
+            patternBase.get(i).add(treeMap);
+        }
     }
 
     private static void testTree() {
@@ -94,16 +149,23 @@ public class FPGrowth {
 
     private static void ConstructFpTree() {
         // Construct tree
-        HEAD = new FpNode("NULL", 0, new ArrayList<>());
+        HEAD = new FpNode("NULL", 0, new ArrayList<>(), null, null);
 
         for (TreeSet<String> transaction : transactions) {
             ArrayList<String> t = new ArrayList<>(transaction);
+
+            // Remove non-frequent items (which are not present in F) from the transaction
+            ArrayList<String> nonFreqItems = new ArrayList<>(t);
+            nonFreqItems.removeAll(F);
+            t.removeAll(nonFreqItems);
+
             t.sort(valComparator);
             printArrayList(t);
 
             InsertItem(t, HEAD);
         }
     }
+
 
     private static void InsertItem(ArrayList<String> t, FpNode T) {
         if (!T.getChildren().isEmpty()) {
@@ -117,25 +179,44 @@ public class FPGrowth {
                     return;
                 }
             }
-            FpNode newNode = new FpNode(t.get(0), 1, new ArrayList<>());
-            t.remove(t.get(0));
+            FpNode newNode = new FpNode(t.get(0), 1, new ArrayList<>(), T, null);
             T.getChildren().add(newNode);
+            t.remove(t.get(0));
+            // update the links
+            updateLinks(newNode);
             if (!t.isEmpty()) {
                 InsertItem(t, newNode);
             }
         } else {
-            FpNode newNode = new FpNode(t.get(0), 1, new ArrayList<>());
+            FpNode newNode = new FpNode(t.get(0), 1, new ArrayList<>(), T, null);
             T.getChildren().add(newNode);
             t.remove(t.get(0));
+            // update the links
+            updateLinks(newNode);
             if (!t.isEmpty()) {
                 InsertItem(t, newNode);
             }
         }
     }
 
+    private static void updateLinks(FpNode newNode) {
+        FpNode fpNode = links[F.indexOf(newNode.getName())];
+        if (fpNode == null) {
+            links[F.indexOf(newNode.getName())] = newNode;
+        } else {
+            // traverse
+            while (fpNode.getSiblingNode() != null) {
+                // go connecting nodes
+                fpNode = fpNode.getSiblingNode();
+            }
+            fpNode.setSiblingNode(newNode);
+
+        }
+    }
+
     private static void sortF() {
         ArrayList<String> k = new ArrayList<>(Fmap.keySet());
-        printArrayList(k);
+//        printArrayList(k);
         // comparator is mae static at first itself
         k.sort(valComparator);
         F = k;
