@@ -40,7 +40,7 @@ public class FPGrowth {
             println("2. List all Transactions");
             println("3. Frequent 1-item sets");
             println("4. List all links");
-            println("5. Show Conditional Pattern base");
+            println("5. Show Conditional Pattern bases");
             println("Press any key to exit");
             int choice = reader.nextInt();
             switch (choice) {
@@ -67,7 +67,7 @@ public class FPGrowth {
                     break;
 
                 case 5:
-                    // TODO:
+                    ListAllPatternBases();
                     break;
 
                 default:
@@ -75,17 +75,6 @@ public class FPGrowth {
                     isRunning = false;
                     break;
             }
-        }
-    }
-
-    private static void ListAllLinks() {
-        println("Links size is: " + links.length);
-        for (FpNode fpNode : links) {
-            while (fpNode != null) {
-                print(fpNode.getName() + "(" + fpNode.getCount() + ")" + "-->");
-                fpNode = fpNode.getSiblingNode();
-            }
-            println("");
         }
     }
 
@@ -101,7 +90,7 @@ public class FPGrowth {
 
         // Fill links with null node initially
         links = new FpNode[F.size()];
-        patternBase = new ArrayList<>(Collections.nCopies(links.length, null)); // do null entries for the same size
+        patternBase = new ArrayList<>(); // do null entries for the same size
 
         println("");
         ConstructFpTree();
@@ -112,39 +101,39 @@ public class FPGrowth {
 
         /// Compute the Association rules from the Tree
 
+        ListAllLinks();
         // Get pattern base
         generateConditionalPatternBase();
+        ListAllPatternBases();
+
+        // create Conditional Fp tree
 
     }
 
     private static void generateConditionalPatternBase() {
-        ListAllLinks();
         for (int i = links.length - 1; i >= 0; --i) {
             FpNode fpNode = links[i];
-            ArrayList<String> items = new ArrayList<>();
-            int count = fpNode.getCount();
-            while (!fpNode.getName().equals("NULL")) {
-                items.add(fpNode.getName());
-                fpNode = fpNode.getParentNode();
+            ArrayList<TreeMap<String, Integer>> maps = new ArrayList<>();
+            while (fpNode != null) {
+                StringBuilder sb = new StringBuilder();
+                TreeMap<String, Integer> treeMap = new TreeMap<>();
+                int count = fpNode.getCount();
+                FpNode fpNode2 = fpNode;
+                while (!fpNode2.getName().equals("NULL")) {
+                    sb.append(fpNode2.getName());
+                    fpNode2 = fpNode2.getParentNode();
+                }
+                sb = sb.deleteCharAt(0);
+                if (sb.compareTo(new StringBuilder()) != 0) {
+                    sb.reverse();
+//                    println(sb.toString() + "--" + "count: " + count);
+                    treeMap.put(sb.toString(), count);
+                    maps.add(treeMap);
+                }
+                fpNode = fpNode.getSiblingNode();
             }
-            println("Items:");
-            printArrayList(items);
-            TreeMap<String, Integer> treeMap = new TreeMap<>();
-            StringBuilder sb = new StringBuilder();
-            for (String item : items) sb.append(item);
-            sb.reverse();
-            println(sb.toString() + "--" + "count: " + count);
-            treeMap.put(sb.toString(), count);
-//            patternBase = new ArrayList<>();
-            patternBase.get(i).add(treeMap);
+            patternBase.add(maps);
         }
-    }
-
-    private static void testTree() {
-        for (FpNode node : HEAD.getChildren().get(0).getChildren()) {
-            print(node.getName() + ":" + node.getCount() + " ");
-        }
-        println("");
     }
 
     private static void ConstructFpTree() {
@@ -196,6 +185,35 @@ public class FPGrowth {
             if (!t.isEmpty()) {
                 InsertItem(t, newNode);
             }
+        }
+    }
+
+    private static void testTree() {
+        for (FpNode node : HEAD.getChildren().get(0).getChildren()) {
+            print(node.getName() + ":" + node.getCount() + " ");
+        }
+        println("");
+    }
+
+    private static void ListAllPatternBases() {
+        int index = F.size() -1;
+        for (ArrayList<TreeMap<String, Integer>> itemPatternBases : patternBase) {
+            for (TreeMap<String, Integer> itempb : itemPatternBases) {
+                print(F.get(index) + "->");
+                printMap(itempb);
+            }
+            --index;
+        }
+    }
+
+    private static void ListAllLinks() {
+        println("Links size is: " + links.length);
+        for (FpNode fpNode : links) {
+            while (fpNode != null) {
+                print(fpNode.getName() + "(" + fpNode.getCount() + ")" + "-->");
+                fpNode = fpNode.getSiblingNode();
+            }
+            println("");
         }
     }
 
@@ -260,9 +278,9 @@ public class FPGrowth {
         println("");
     }
 
-    private static void printIntArrayList(ArrayList<Integer> comb) {
-        for (Integer a : comb) {
-            print(a + " ");
+    private static void printMap(TreeMap<String, Integer> treeMap) {
+        for (Map.Entry<String, Integer> entry : treeMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
         }
         println("");
     }
