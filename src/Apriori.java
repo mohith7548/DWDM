@@ -97,13 +97,11 @@ public class Apriori {
         // since the l1 and l2 will be of form 'ABC' 'DCE'
         for (Map.Entry<String, Integer> l1 : l.entrySet()) {
             for (Map.Entry<String, Integer> l2 : l.entrySet()) {
-                println("hi1");
                 println(l1.getKey() + "-" + l2.getKey());
                 if (checkJoinCondition(l1, l2)) {
-                    println("Hi2");
                     String l1Jl2 = getl1Jl2(l1, l2);
                     if (hasInfrequentSubsets(l1Jl2, l)) {
-                        // remove l1Jl2
+                        // Don't add l1Jl2 (remove them)
                     } else {
                         // compute count of l1Jl2 and add to TreeMap c in the form of {'ABC' : 3}
                         for (TreeSet<String> transaction : transactions) {

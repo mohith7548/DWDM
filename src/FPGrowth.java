@@ -1,13 +1,15 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class FPGrowth {
     private static Scanner reader = new Scanner(System.in);
+    private static Header[] header;
 
     private static HashMap<String, Integer> Fmap = new HashMap<>();
     private static ArrayList<String> F = new ArrayList<>(); // Links to hold the items as a linked list
-    private static FpNode[] links;
+//    private static FpNode[] links;
 
     private static ArrayList<ArrayList<TreeMap<String, Integer>>> patternBase;
     private static ArrayList<TreeSet<String>> transactions = new ArrayList<>();
@@ -45,7 +47,6 @@ public class FPGrowth {
             int choice = reader.nextInt();
             switch (choice) {
                 case 1:
-                    F.clear();
                     Fmap.clear();
                     print("Enter Minimum Support Count: ");
                     minCount = reader.nextInt();
@@ -89,7 +90,9 @@ public class FPGrowth {
         printArrayList(F);
 
         // Fill links with null node initially
-        links = new FpNode[F.size()];
+//        links = new FpNode[F.size()];
+        header = new Header[F.size()];
+        constructHeader();
         patternBase = new ArrayList<>(); // do null entries for the same size
 
         println("");
@@ -107,12 +110,61 @@ public class FPGrowth {
         ListAllPatternBases();
 
         // create Conditional Fp tree
+        Fp_growth(HEAD, null);
+    }
 
+    private static void Fp_growth(FpNode head, Object o) {
+        if(TreeHasSinglePath(head)) {
+            // get path nodes
+            FpNode temp = head;
+            ArrayList<String> comb = new ArrayList<>();
+            while(temp!=null) {
+                comb.add(temp.getName());
+                temp = temp.getChildren().get(0);
+            }
+        } else {
+            for (int i = header.length - 1; i >= 0; --i) {
+                FpNode fpNode = header[i].getLinkNode();
+                TreeMap<String, Integer> b = new TreeMap<>();
+                b.put(Union(fpNode.getName(), head.getName()), fpNode.getCount());
+                // gen cond pattern base
+                // construct
+            }
+        }
+    }
+
+    private static String Union(String name, String name1) {
+        TreeSet<String> set = new TreeSet<>();
+        if (!name.equals("NULL"))
+            set.addAll(Arrays.asList(name.split("")));
+        if (!name1.equals("NULL"))
+            set.addAll(Arrays.asList(name1.split("")));
+        StringBuilder sb = new StringBuilder();
+        for(String item: set) {
+            sb.append(item);
+        }
+        return sb.toString();
+    }
+
+    private static boolean TreeHasSinglePath(FpNode head) {
+        while(head != null) {
+            if(head.getChildren().size() > 1) {
+                return false;
+            }
+            head = head.getChildren().get(0);
+        }
+        return true;
+    }
+
+    private static void constructHeader() {
+        for(int i=0; i<header.length; ++i) {
+            header[i] = new Header(F.get(i), Fmap.get(F.get(i)), null);
+        }
     }
 
     private static void generateConditionalPatternBase() {
-        for (int i = links.length - 1; i >= 0; --i) {
-            FpNode fpNode = links[i];
+        for (int i = header.length - 1; i >= 0; --i) {
+            FpNode fpNode = header[i].getLinkNode();
             ArrayList<TreeMap<String, Integer>> maps = new ArrayList<>();
             while (fpNode != null) {
                 StringBuilder sb = new StringBuilder();
@@ -207,8 +259,9 @@ public class FPGrowth {
     }
 
     private static void ListAllLinks() {
-        println("Links size is: " + links.length);
-        for (FpNode fpNode : links) {
+        println("Links size is: " + header.length);
+        for (Header h: header) {
+            FpNode fpNode = h.getLinkNode();
             while (fpNode != null) {
                 print(fpNode.getName() + "(" + fpNode.getCount() + ")" + "-->");
                 fpNode = fpNode.getSiblingNode();
@@ -218,9 +271,10 @@ public class FPGrowth {
     }
 
     private static void updateLinks(FpNode newNode) {
-        FpNode fpNode = links[F.indexOf(newNode.getName())];
+        FpNode fpNode = header[F.indexOf(newNode.getName())].getLinkNode();
         if (fpNode == null) {
-            links[F.indexOf(newNode.getName())] = newNode;
+//            links[F.indexOf(newNode.getName())] = newNode;
+            header[F.indexOf(newNode.getName())].setLinkNode(newNode);
         } else {
             // traverse
             while (fpNode.getSiblingNode() != null) {
@@ -234,7 +288,6 @@ public class FPGrowth {
 
     private static void sortF() {
         ArrayList<String> k = new ArrayList<>(Fmap.keySet());
-//        printArrayList(k);
         // comparator is mae static at first itself
         k.sort(valComparator);
         F = k;

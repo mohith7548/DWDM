@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="970ef88a-ed86-4e65-bbe6-e41da58b3b78" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Header.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tr3.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/DWDM/FPGrowth.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DWDM/FPGrowth.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Apriori.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Apriori.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FPGrowth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FPGrowth.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -16,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Apriori.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Apriori.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Apriori.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="215" column="10" selection-start-line="215" selection-start-column="10" selection-end-line="215" selection-end-column="10" />
+            <state relative-caret-position="360">
+              <caret line="15" column="55" lean-forward="true" selection-start-line="15" selection-start-column="55" selection-end-line="15" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -28,17 +31,56 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FPGrowth.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="tr3.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tr3.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-10">
+              <caret line="5" column="9" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tr.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tr.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-10" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FPGrowth.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/FPGrowth.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="98" column="66" lean-forward="true" selection-start-line="98" selection-start-column="66" selection-end-line="98" selection-end-column="66" />
+            <state relative-caret-position="-8">
+              <caret line="222" column="35" selection-start-line="222" selection-start-column="35" selection-end-line="222" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#9422#9423#0" expanded="true" />
-                <element signature="e#9457#9458#0" expanded="true" />
-                <element signature="e#9502#9503#0" expanded="true" />
-                <element signature="e#9539#9540#0" expanded="true" />
+                <element signature="e#11666#11667#0" expanded="true" />
+                <element signature="e#11701#11702#0" expanded="true" />
+                <element signature="e#11746#11747#0" expanded="true" />
+                <element signature="e#11783#11784#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Header.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Header.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-8">
+              <caret column="21" selection-start-column="21" selection-end-column="21" />
+              <folding>
+                <element signature="e#128#129#0" expanded="true" />
+                <element signature="e#155#156#0" expanded="true" />
+                <element signature="e#195#196#0" expanded="true" />
+                <element signature="e#227#228#0" expanded="true" />
+                <element signature="e#256#257#0" expanded="true" />
+                <element signature="e#284#285#0" expanded="true" />
+                <element signature="e#323#324#0" expanded="true" />
+                <element signature="e#357#358#0" expanded="true" />
+                <element signature="e#392#393#0" expanded="true" />
+                <element signature="e#423#424#0" expanded="true" />
+                <element signature="e#471#472#0" expanded="true" />
+                <element signature="e#511#512#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -47,13 +89,14 @@
       <file leaf-file-name="FpNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/FpNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
+            <state relative-caret-position="-8">
+              <caret line="7" column="30" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="30" />
               <folding>
                 <element signature="e#515#516#0" expanded="true" />
                 <element signature="e#542#543#0" expanded="true" />
                 <element signature="e#571#572#0" expanded="true" />
                 <element signature="e#599#600#0" expanded="true" />
+                <element signature="e#787#788#0" expanded="true" />
                 <element signature="e#821#822#0" expanded="true" />
                 <element signature="e#958#959#0" expanded="true" />
                 <element signature="e#991#992#0" expanded="true" />
@@ -82,6 +125,9 @@
       <find>patternBase</find>
       <find>parent</find>
       <find>PrintMap</find>
+      <find>Fmap</find>
+      <find>&quot;NULL&quot;</find>
+      <find>hasIn</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -90,18 +136,20 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Apriori.java" />
         <option value="$PROJECT_DIR$/src/Node.java" />
         <option value="$PROJECT_DIR$/src/FpNode.java" />
         <option value="$PROJECT_DIR$/src/ConditionalPatternBase.java" />
+        <option value="$PROJECT_DIR$/src/Header.java" />
         <option value="$PROJECT_DIR$/src/FPGrowth.java" />
+        <option value="$PROJECT_DIR$/tr3.csv" />
+        <option value="$PROJECT_DIR$/src/Apriori.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
     <option name="y" value="25" />
-    <option name="width" value="942" />
+    <option name="width" value="927" />
     <option name="height" value="1055" />
   </component>
   <component name="ProjectView">
@@ -131,10 +179,12 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/opencsv-4.2.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -231,8 +281,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1853" height="1055" extended-state="7" />
-    <editor active="true" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -242,13 +291,13 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286334" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2462039" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.329718" />
       <window_info anchor="right" id="Flutter Outline" order="3" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15163255" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16989486" />
       <window_info id="Learn" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -293,6 +342,7 @@
             <element signature="e#542#543#0" expanded="true" />
             <element signature="e#571#572#0" expanded="true" />
             <element signature="e#599#600#0" expanded="true" />
+            <element signature="e#787#788#0" expanded="true" />
             <element signature="e#821#822#0" expanded="true" />
             <element signature="e#958#959#0" expanded="true" />
             <element signature="e#991#992#0" expanded="true" />
@@ -308,10 +358,10 @@
           <caret line="117" column="5" lean-forward="true" selection-start-line="117" selection-start-column="5" selection-end-line="117" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9422#9423#0" expanded="true" />
-            <element signature="e#9457#9458#0" expanded="true" />
-            <element signature="e#9502#9503#0" expanded="true" />
-            <element signature="e#9539#9540#0" expanded="true" />
+            <element signature="e#11666#11667#0" expanded="true" />
+            <element signature="e#11701#11702#0" expanded="true" />
+            <element signature="e#11746#11747#0" expanded="true" />
+            <element signature="e#11783#11784#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -335,6 +385,7 @@
             <element signature="e#542#543#0" expanded="true" />
             <element signature="e#571#572#0" expanded="true" />
             <element signature="e#599#600#0" expanded="true" />
+            <element signature="e#787#788#0" expanded="true" />
             <element signature="e#821#822#0" expanded="true" />
             <element signature="e#958#959#0" expanded="true" />
             <element signature="e#991#992#0" expanded="true" />
@@ -350,10 +401,10 @@
           <caret line="161" lean-forward="true" selection-start-line="161" selection-end-line="161" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9422#9423#0" expanded="true" />
-            <element signature="e#9457#9458#0" expanded="true" />
-            <element signature="e#9502#9503#0" expanded="true" />
-            <element signature="e#9539#9540#0" expanded="true" />
+            <element signature="e#11666#11667#0" expanded="true" />
+            <element signature="e#11701#11702#0" expanded="true" />
+            <element signature="e#11746#11747#0" expanded="true" />
+            <element signature="e#11783#11784#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -381,10 +432,10 @@
           <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9422#9423#0" expanded="true" />
-            <element signature="e#9457#9458#0" expanded="true" />
-            <element signature="e#9502#9503#0" expanded="true" />
-            <element signature="e#9539#9540#0" expanded="true" />
+            <element signature="e#11666#11667#0" expanded="true" />
+            <element signature="e#11701#11702#0" expanded="true" />
+            <element signature="e#11746#11747#0" expanded="true" />
+            <element signature="e#11783#11784#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -412,10 +463,10 @@
           <caret line="86" selection-start-line="86" selection-end-line="86" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9422#9423#0" expanded="true" />
-            <element signature="e#9457#9458#0" expanded="true" />
-            <element signature="e#9502#9503#0" expanded="true" />
-            <element signature="e#9539#9540#0" expanded="true" />
+            <element signature="e#11666#11667#0" expanded="true" />
+            <element signature="e#11701#11702#0" expanded="true" />
+            <element signature="e#11746#11747#0" expanded="true" />
+            <element signature="e#11783#11784#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -443,10 +494,10 @@
           <caret line="84" selection-start-line="84" selection-end-line="84" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9422#9423#0" expanded="true" />
-            <element signature="e#9457#9458#0" expanded="true" />
-            <element signature="e#9502#9503#0" expanded="true" />
-            <element signature="e#9539#9540#0" expanded="true" />
+            <element signature="e#11666#11667#0" expanded="true" />
+            <element signature="e#11701#11702#0" expanded="true" />
+            <element signature="e#11746#11747#0" expanded="true" />
+            <element signature="e#11783#11784#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -472,31 +523,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jrt:///usr/lib/jvm/java-11-openjdk-amd64!/java.base/java/util/ArrayList.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="199" column="13" selection-start-line="199" selection-start-column="13" selection-end-line="199" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/FpNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-          <folding>
-            <element signature="e#515#516#0" expanded="true" />
-            <element signature="e#542#543#0" expanded="true" />
-            <element signature="e#571#572#0" expanded="true" />
-            <element signature="e#599#600#0" expanded="true" />
-            <element signature="e#821#822#0" expanded="true" />
-            <element signature="e#958#959#0" expanded="true" />
-            <element signature="e#991#992#0" expanded="true" />
-            <element signature="e#1043#1044#0" expanded="true" />
-            <element signature="e#1087#1088#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ConditionalPatternBase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -507,26 +533,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Apriori.java">
+    <entry file="jrt:///usr/lib/jvm/java-11-openjdk-amd64!/java.base/java/util/ArrayList.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="215" column="10" selection-start-line="215" selection-start-column="10" selection-end-line="215" selection-end-column="10" />
+        <state relative-caret-position="168">
+          <caret line="21" column="84" lean-forward="true" selection-start-line="21" selection-start-column="84" selection-end-line="21" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tr3.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10">
+          <caret line="5" column="9" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Header.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret column="21" selection-start-column="21" selection-end-column="21" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#155#156#0" expanded="true" />
+            <element signature="e#195#196#0" expanded="true" />
+            <element signature="e#227#228#0" expanded="true" />
+            <element signature="e#256#257#0" expanded="true" />
+            <element signature="e#284#285#0" expanded="true" />
+            <element signature="e#323#324#0" expanded="true" />
+            <element signature="e#357#358#0" expanded="true" />
+            <element signature="e#392#393#0" expanded="true" />
+            <element signature="e#423#424#0" expanded="true" />
+            <element signature="e#471#472#0" expanded="true" />
+            <element signature="e#511#512#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/FpNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret line="7" column="30" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="30" />
+          <folding>
+            <element signature="e#515#516#0" expanded="true" />
+            <element signature="e#542#543#0" expanded="true" />
+            <element signature="e#571#572#0" expanded="true" />
+            <element signature="e#599#600#0" expanded="true" />
+            <element signature="e#787#788#0" expanded="true" />
+            <element signature="e#821#822#0" expanded="true" />
+            <element signature="e#958#959#0" expanded="true" />
+            <element signature="e#991#992#0" expanded="true" />
+            <element signature="e#1043#1044#0" expanded="true" />
+            <element signature="e#1087#1088#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/FPGrowth.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="98" column="66" lean-forward="true" selection-start-line="98" selection-start-column="66" selection-end-line="98" selection-end-column="66" />
+        <state relative-caret-position="-8">
+          <caret line="222" column="35" selection-start-line="222" selection-start-column="35" selection-end-line="222" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9422#9423#0" expanded="true" />
-            <element signature="e#9457#9458#0" expanded="true" />
-            <element signature="e#9502#9503#0" expanded="true" />
-            <element signature="e#9539#9540#0" expanded="true" />
+            <element signature="e#11666#11667#0" expanded="true" />
+            <element signature="e#11701#11702#0" expanded="true" />
+            <element signature="e#11746#11747#0" expanded="true" />
+            <element signature="e#11783#11784#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tr.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Apriori.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="15" column="55" lean-forward="true" selection-start-line="15" selection-start-column="55" selection-end-line="15" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
