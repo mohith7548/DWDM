@@ -1,6 +1,4 @@
-A,B,C
-B,C,D
-D,E
-A,B,D
-A,B,C,E
-A,B,C,D,E
+a,b,c,d
+a,b,c
+a,b
+a

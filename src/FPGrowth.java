@@ -1,87 +1,36 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class FPGrowth {
-    private static Scanner reader = new Scanner(System.in);
-    private static Header[] header;
+class FPGrowth {
+    private Header[] table;
 
-    private static HashMap<String, Integer> Fmap = new HashMap<>();
-    private static ArrayList<String> F = new ArrayList<>(); // Links to hold the items as a linked list
-//    private static FpNode[] links;
+    private HashMap<String, Integer> Fmap;
+    private ArrayList<String> F;
+    private LinkedHashMap<ArrayList<String>, Integer> frequentItems;
 
-    private static ArrayList<ArrayList<TreeMap<String, Integer>>> patternBase;
-    private static ArrayList<TreeSet<String>> transactions = new ArrayList<>();
-    private static int minCount;
-    private static FpNode HEAD;
+    private ArrayList<TreeMap<String, Integer>> patternBase;
+    private ArrayList<TreeSet<String>> transactions;
+    private int supCount;
+    private FpNode HEAD;
 
-    private static Comparator<String> valComparator = (t1, t2) -> {
+    private Comparator<String> valComparator = (t1, t2) -> {
         Integer i1 = Fmap.get(t1);
         Integer i2 = Fmap.get(t2);
         return -i1.compareTo(i2); // -ve because to get descending order
     };
 
-    public static void main(String[] kune) throws FileNotFoundException {
-        println("Enter the path of transactions file: ");
-        String filePath = reader.nextLine();
-        Scanner scan = new Scanner(new File(filePath));
-        while (scan.hasNextLine()) {
-            String line = scan.nextLine();
-            String[] lineArray = line.split(",");
-            TreeSet<String> set = new TreeSet<>(Arrays.asList(lineArray));
-            transactions.add(set);
-        }
-
-        // While loop to give options to user
-        println("`````````FP-GROWTH ALGORITHM``````````");
-        boolean isRunning = true;
-        while (isRunning) {
-            println("");
-            println("1. Determine Frequent Item Data set");
-            println("2. List all Transactions");
-            println("3. Frequent 1-item sets");
-            println("4. List all links");
-            println("5. Show Conditional Pattern bases");
-            println("Press any key to exit");
-            int choice = reader.nextInt();
-            switch (choice) {
-                case 1:
-                    Fmap.clear();
-                    print("Enter Minimum Support Count: ");
-                    minCount = reader.nextInt();
-                    startFPGrowth();
-                    println("Doing great\n");
-                    break;
-
-                case 2:
-                    println("All Transactions so Far..");
-                    printAllTransactions();
-                    break;
-
-                case 3:
-                    printMap(Fmap);
-                    break;
-
-                case 4:
-                    ListAllLinks();
-                    break;
-
-                case 5:
-                    ListAllPatternBases();
-                    break;
-
-                default:
-                    println("Good bye, Folks!\n");
-                    isRunning = false;
-                    break;
-            }
-        }
+    FPGrowth(ArrayList<TreeSet<String>> transactions, int minCount) {
+        this.transactions = transactions;
+        this.supCount = minCount;
+        frequentItems = new LinkedHashMap<>();
+        patternBase = new ArrayList<>();
+        HEAD = new FpNode("NULL", 0, new ArrayList<>(), null, null);
     }
 
-    private static void startFPGrowth() {
+    void startFPGrowth() {
+        // clear all variables
+
         // Find all 1-Freq item sets
-        Fmap = findL1();
+        findL1();
         printMap(Fmap);
 
         // Sort F in (descending) order
@@ -89,11 +38,8 @@ public class FPGrowth {
         print("F = ");
         printArrayList(F);
 
-        // Fill links with null node initially
-//        links = new FpNode[F.size()];
-        header = new Header[F.size()];
+        table = new Header[F.size()];
         constructHeader();
-        patternBase = new ArrayList<>(); // do null entries for the same size
 
         println("");
         ConstructFpTree();
@@ -105,50 +51,92 @@ public class FPGrowth {
         /// Compute the Association rules from the Tree
 
         ListAllLinks();
-        // Get pattern base
-        generateConditionalPatternBase();
-        ListAllPatternBases();
 
         // create Conditional Fp tree
-        Fp_growth(HEAD, null);
+        Fp_growth(HEAD, table, null, frequentItems, supCount);
+//        printFrequentItems(frequentItems);
+
     }
 
-    private static void Fp_growth(FpNode head, Object o) {
-        if(TreeHasSinglePath(head)) {
-            // get path nodes
-            FpNode temp = head;
-            ArrayList<String> comb = new ArrayList<>();
-            while(temp!=null) {
-                comb.add(temp.getName());
+    private void Fp_growth(FpNode tree, Header[] table, ArrayList<String> a,
+                           LinkedHashMap<ArrayList<String>, Integer> frequentItems, int supCount) {
+
+        TreeMap<Set<String>, Integer> cond_pat_base = new TreeMap<>();
+
+        if (TreeHasSinglePath(tree)) {
+            FpNode temp = tree;
+            TreeMap<String, Integer> itemsMap = new TreeMap<>();
+            // generate all combinations 'b' in path P
+            while (temp.getChildren().size() != 0) {
                 temp = temp.getChildren().get(0);
+                itemsMap.put(temp.getName(), temp.getCount());
+                println(temp.getName());
             }
+            // for each pattern add it into ans list with count = min_sup count of nodes in b
+            LinkedHashMap<ArrayList<String>, Integer> comb = findSubList(itemsMap);
+
+            for (ArrayList<String> l : comb.keySet()) {
+                int count = comb.get(l);
+                if (l.size() == 0) {
+                    if (a != null) {
+                        l.addAll(a);
+                        count = supCount;
+                    }
+                    if (l.size() != 0) {
+                        frequentItems.put(l, count);
+                        printArrayList(l);
+                    }
+                } else {
+                    if (a != null) {
+                        l.addAll(a);
+                    }
+                    frequentItems.put(l, count);
+                    printArrayList(l);
+                }
+
+            }
+
+
         } else {
-            for (int i = header.length - 1; i >= 0; --i) {
-                FpNode fpNode = header[i].getLinkNode();
-                TreeMap<String, Integer> b = new TreeMap<>();
-                b.put(Union(fpNode.getName(), head.getName()), fpNode.getCount());
-                // gen cond pattern base
-                // construct
+            println("Nice Job!");
+        }
+    }
+
+    /*find sublists for a given list*/
+    private LinkedHashMap<ArrayList<String>, Integer> findSubList(TreeMap<String, Integer> li1) {
+        int n = li1.size();
+        ArrayList<String> li = new ArrayList<>(li1.keySet());
+        printArrayList(li);
+        LinkedHashMap<ArrayList<String>, Integer> lst = new LinkedHashMap<>();
+
+        ArrayList<String> m = new ArrayList<>();
+        m.add("k");m.add("u");m.add("n");m.add("e");
+        lst.put(m, 12);
+
+        for (int i = 0; i < (1 << n); i++) {
+            ArrayList<String> l = new ArrayList<>();
+            int c = 0;
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) > 0) {
+                    l.add(li.get(j));
+                    c = li1.get(li.get(j));
+                    printArrayList(l);
+                    println(c + "");
+                    println("");
+                }
             }
+            lst.put(l, c);
         }
+        return lst;
     }
 
-    private static String Union(String name, String name1) {
-        TreeSet<String> set = new TreeSet<>();
-        if (!name.equals("NULL"))
-            set.addAll(Arrays.asList(name.split("")));
-        if (!name1.equals("NULL"))
-            set.addAll(Arrays.asList(name1.split("")));
-        StringBuilder sb = new StringBuilder();
-        for(String item: set) {
-            sb.append(item);
+    private boolean TreeHasSinglePath(FpNode head) {
+        if (head == null) {
+            return false;
         }
-        return sb.toString();
-    }
-
-    private static boolean TreeHasSinglePath(FpNode head) {
-        while(head != null) {
-            if(head.getChildren().size() > 1) {
+        while (head.getChildren().size() != 0) {
+            if (head.getChildren().size() > 1) {
+                println("Hi");
                 return false;
             }
             head = head.getChildren().get(0);
@@ -156,41 +144,14 @@ public class FPGrowth {
         return true;
     }
 
-    private static void constructHeader() {
-        for(int i=0; i<header.length; ++i) {
-            header[i] = new Header(F.get(i), Fmap.get(F.get(i)), null);
+    private void constructHeader() {
+        for (int i = 0; i < table.length; ++i) {
+            table[i] = new Header(F.get(i), Fmap.get(F.get(i)), null);
         }
     }
 
-    private static void generateConditionalPatternBase() {
-        for (int i = header.length - 1; i >= 0; --i) {
-            FpNode fpNode = header[i].getLinkNode();
-            ArrayList<TreeMap<String, Integer>> maps = new ArrayList<>();
-            while (fpNode != null) {
-                StringBuilder sb = new StringBuilder();
-                TreeMap<String, Integer> treeMap = new TreeMap<>();
-                int count = fpNode.getCount();
-                FpNode fpNode2 = fpNode;
-                while (!fpNode2.getName().equals("NULL")) {
-                    sb.append(fpNode2.getName());
-                    fpNode2 = fpNode2.getParentNode();
-                }
-                sb = sb.deleteCharAt(0);
-                if (sb.compareTo(new StringBuilder()) != 0) {
-                    sb.reverse();
-//                    println(sb.toString() + "--" + "count: " + count);
-                    treeMap.put(sb.toString(), count);
-                    maps.add(treeMap);
-                }
-                fpNode = fpNode.getSiblingNode();
-            }
-            patternBase.add(maps);
-        }
-    }
-
-    private static void ConstructFpTree() {
+    private void ConstructFpTree() {
         // Construct tree
-        HEAD = new FpNode("NULL", 0, new ArrayList<>(), null, null);
 
         for (TreeSet<String> transaction : transactions) {
             ArrayList<String> t = new ArrayList<>(transaction);
@@ -208,7 +169,7 @@ public class FPGrowth {
     }
 
 
-    private static void InsertItem(ArrayList<String> t, FpNode T) {
+    private void InsertItem(ArrayList<String> t, FpNode T) {
         if (!T.getChildren().isEmpty()) {
             for (FpNode child : T.getChildren()) {
                 if (child.getName().equals(t.get(0))) {
@@ -240,27 +201,24 @@ public class FPGrowth {
         }
     }
 
-    private static void testTree() {
+    private void testTree() {
         for (FpNode node : HEAD.getChildren().get(0).getChildren()) {
             print(node.getName() + ":" + node.getCount() + " ");
         }
         println("");
     }
 
-    private static void ListAllPatternBases() {
-        int index = F.size() -1;
-        for (ArrayList<TreeMap<String, Integer>> itemPatternBases : patternBase) {
-            for (TreeMap<String, Integer> itempb : itemPatternBases) {
-                print(F.get(index) + "->");
-                printMap(itempb);
-            }
-            --index;
+    /*print frequent item lists*/
+    private void printFrequentItems(TreeMap<ArrayList<String>, Integer> freqitems) {
+        for (ArrayList<String> ll : freqitems.keySet()) {
+            System.out.println(ll + "\t:" + freqitems.get(ll));
         }
     }
 
-    private static void ListAllLinks() {
-        println("Links size is: " + header.length);
-        for (Header h: header) {
+
+    void ListAllLinks() {
+        println("Links size is: " + table.length);
+        for (Header h : table) {
             FpNode fpNode = h.getLinkNode();
             while (fpNode != null) {
                 print(fpNode.getName() + "(" + fpNode.getCount() + ")" + "-->");
@@ -270,11 +228,11 @@ public class FPGrowth {
         }
     }
 
-    private static void updateLinks(FpNode newNode) {
-        FpNode fpNode = header[F.indexOf(newNode.getName())].getLinkNode();
+    private void updateLinks(FpNode newNode) {
+        FpNode fpNode = table[F.indexOf(newNode.getName())].getLinkNode();
         if (fpNode == null) {
 //            links[F.indexOf(newNode.getName())] = newNode;
-            header[F.indexOf(newNode.getName())].setLinkNode(newNode);
+            table[F.indexOf(newNode.getName())].setLinkNode(newNode);
         } else {
             // traverse
             while (fpNode.getSiblingNode() != null) {
@@ -286,14 +244,14 @@ public class FPGrowth {
         }
     }
 
-    private static void sortF() {
+    private void sortF() {
         ArrayList<String> k = new ArrayList<>(Fmap.keySet());
-        // comparator is mae static at first itself
+        // comparator is mae at first itself
         k.sort(valComparator);
         F = k;
     }
 
-    private static HashMap<String, Integer> findL1() {
+    private void findL1() {
         HashMap<String, Integer> C1 = new HashMap<>();
         for (TreeSet<String> transaction : transactions) {
             for (String item : transaction) {
@@ -308,48 +266,43 @@ public class FPGrowth {
         // Take min support into consideration and remove others
         HashMap<String, Integer> L1 = new HashMap<>();
         for (Map.Entry<String, Integer> entry : C1.entrySet()) {
-            if (entry.getValue() >= minCount) {
+            if (entry.getValue() >= supCount) {
                 L1.put(entry.getKey(), entry.getValue());
             }
         }
-        return L1;
+        Fmap = L1;
     }
 
-    private static void printAllTransactions() {
-        for (TreeSet<String> transaction : transactions) {
-            for (String item : transaction) {
-                print(item);
-            }
-            println("");
-        }
+    void DisplayL1() {
+        printMap(Fmap);
     }
 
-    private static void printArrayList(ArrayList<String> comb) {
+    private void printArrayList(ArrayList<String> comb) {
         for (String a : comb) {
             print(a + " ");
         }
         println("");
     }
 
-    private static void printMap(TreeMap<String, Integer> treeMap) {
+    private void printMap(TreeMap<String, Integer> treeMap) {
         for (Map.Entry<String, Integer> entry : treeMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
         println("");
     }
 
-    private static void printMap(HashMap<String, Integer> treeMap) {
+    private void printMap(HashMap<String, Integer> treeMap) {
         for (Map.Entry<String, Integer> entry : treeMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
         println("");
     }
 
-    private static void print(String s) {
+    private void print(String s) {
         System.out.print(s);
     }
 
-    private static void println(String s) {
+    private void println(String s) {
         System.out.println(s);
     }
 }
